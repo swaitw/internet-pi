@@ -33,6 +33,8 @@
     dest: "{{ config_dir }}/internet-monitoring/{{ item.dest }}"
     mode: 0644
   loop:
+    - src: docker-compose.yml.j2
+      dest: docker-compose.yml
     - src: grafana-config.monitoring.j2
       dest: grafana/config.monitoring
     - src: prometheus.yml.j2
@@ -43,7 +45,7 @@
   become: false
 
 - name: Ensure internet-monitoring environment is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ config_dir }}/internet-monitoring/"
-    build: false
+    build: never
   become: false
